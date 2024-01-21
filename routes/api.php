@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('postal-code')->group( function() {
+    Route::post('/', [PostalCodeController::class, 'create']);
+    Route::put('/edit/{id}', [PostalCodeController::class, 'edit']);
+    Route::delete('/delete/{id}', [PostalCodeController::class, 'destroy']);
     Route::get('/{postalCode}/search', [PostalCodeController::class, 'show']);
     Route::get('/search-by-name', [PostalCodeController::class, 'searchByName']);
 });

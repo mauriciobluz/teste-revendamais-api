@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePostalCodeRequest;
 use App\Repositories\PostalCodeRepository;
 use App\Traits\ViaCepTrait;
 use Error;
@@ -14,6 +15,27 @@ class PostalCodeController extends Controller
     use ViaCepTrait;
 
     public function __construct(private PostalCodeRepository $postalCodeRepository){}
+
+    public function create(CreatePostalCodeRequest $request)
+    {
+        return response()->json([
+            'data' => $this->postalCodeRepository->create($request)
+        ]);
+    }
+
+    public function edit($id, CreatePostalCodeRequest $request)
+    {
+        return response()->json([
+            'data' => $this->postalCodeRepository->update($id, $request)
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        return response()->json([
+            'data' => $this->postalCodeRepository->delete($id)
+        ]);
+    }
 
     public function show($postalCode): JsonResponse
     {
