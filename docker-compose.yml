@@ -29,6 +29,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
+      - mysql_data:/var/lib/mysql
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
       - teste-revendamais-network
@@ -46,3 +47,5 @@ services:
 networks:
   teste-revendamais-network:
     driver: bridge
+volumes:
+  mysql_data:
