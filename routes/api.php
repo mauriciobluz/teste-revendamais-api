@@ -20,5 +20,5 @@ Route::prefix('postal-code')->group( function() {
     Route::put('/edit/{id}', [PostalCodeController::class, 'edit']);
     Route::delete('/delete/{id}', [PostalCodeController::class, 'destroy']);
     Route::get('/{postalCode}/search', [PostalCodeController::class, 'show']);
-    Route::get('/search-by-name', [PostalCodeController::class, 'searchByName']);
+    Route::post('/search-by-name', [PostalCodeController::class, 'searchByName']);
 });
