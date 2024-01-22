@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostalCodeRequest;
+use App\Http\Resources\PostalCodeResource;
+use App\Http\Resources\PostalCodeResourceCollection;
 use App\Repositories\PostalCodeRepository;
 use App\Traits\ViaCepTrait;
 use Error;
@@ -16,28 +18,24 @@ class PostalCodeController extends Controller
 
     public function __construct(private PostalCodeRepository $postalCodeRepository){}
 
-    public function create(CreatePostalCodeRequest $request)
+    public function create(CreatePostalCodeRequest $request): PostalCodeResource
     {
-        return response()->json([
-            'data' => $this->postalCodeRepository->create($request)
-        ]);
+        return new PostalCodeResource($this->postalCodeRepository->create($request));
     }
 
-    public function edit($id, CreatePostalCodeRequest $request)
+    public function edit($id, CreatePostalCodeRequest $request): PostalCodeResource
     {
-        return response()->json([
-            'data' => $this->postalCodeRepository->update($id, $request)
-        ]);
+        return new PostalCodeResource($this->postalCodeRepository->update($id, $request));
     }
 
     public function destroy($id)
     {
-        return response()->json([
-            'data' => $this->postalCodeRepository->delete($id)
-        ]);
+        $destroyed = $this->postalCodeRepository->delete($id);
+
+        return response()->json(null, $destroyed ? 200 : 404);
     }
 
-    public function show($postalCode): JsonResponse
+    public function show($postalCode): PostalCodeResource | JsonResponse
     {
         $responseData = $this->postalCodeRepository->searchByPostalCode($postalCode);
 
@@ -46,30 +44,22 @@ class PostalCodeController extends Controller
             try {
                 $viaCepData = $this->checkPostalCode($postalCode);
             } catch (Error $e) {
-                return response()->json([
-                    'data' => ['message' => $e->getMessage()]
-                ], 422);
+                return response()->json(['message' => $e->getMessage()], 422);
             }
             $responseData = $this->postalCodeRepository->createPostalCodeFromViaCep($viaCepData);
         }
 
-        return response()->json([
-            'data' => $responseData
-        ]);
+        return new PostalCodeResource($responseData);
     }
 
     public function searchByName(Request $request)
     {
         if(!$request->has('search_text')) {
-            return response()->json([
-                'data' => ['message' => 'É preciso enviar o termo de busca']
-            ], 422);
+            return response()->json(['message' => 'É preciso enviar o termo de busca'], 422);
         }
 
         $fuzzySearchResults = Searchy::search('postal_codes')->fields('street_name')->query($request->get('search_text'))->get();
         
-        return response()->json([
-            'data' => $fuzzySearchResults
-        ]);
+        return new PostalCodeResourceCollection($fuzzySearchResults);
     }
 }
