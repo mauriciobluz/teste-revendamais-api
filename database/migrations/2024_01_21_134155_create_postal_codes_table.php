@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('postal_codes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->integer('postal_code');
+            $table->string('postal_code', 8);
             $table->text('street_name');
             $table->softDeletes();
             $table->timestamps();

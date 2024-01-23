@@ -22,7 +22,7 @@ class CreatePostalCodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'postal_code' => 'required|integer',
+            'postal_code' => 'required|string|numeric|digits:8',
             'street_name' => 'required'
         ];
     }

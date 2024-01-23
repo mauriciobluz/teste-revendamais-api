@@ -23,7 +23,7 @@ class PostalCodeController extends Controller
         return new PostalCodeResource($this->postalCodeRepository->create($request));
     }
 
-    public function edit($id, CreatePostalCodeRequest $request): PostalCodeResource
+    public function edit(CreatePostalCodeRequest $request, string $id): PostalCodeResource
     {
         return new PostalCodeResource($this->postalCodeRepository->update($id, $request));
     }
