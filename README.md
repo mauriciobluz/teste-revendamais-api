@@ -12,7 +12,13 @@ docker-compose build app
 docker-compose up -d
 ```
 
-Isso vai criar a imagem e subir o container, para criar as tabelas do banco de dados rode na sequência:
+Isso vai criar a imagem e subir o container, na sequência é necessário instalar as dependencias do projeto, para isso rode o seguinte comando:
+
+```bash
+docker exec -it teste-revendamais-api composer install
+```
+
+Com todo o projeto configurado o ultimo passo é criar o banco de dados e popular com dados teste:
 
 ```bash
 docker exec -it teste-revendamais-api php artisan migrate --seed

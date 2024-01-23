@@ -15,4 +15,5 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user \
     && chown -R $user:$user /home/$user \
     && chmod -R 755 /var/www
 WORKDIR /var/www
+COPY . /var/www
 USER $user
