@@ -4,15 +4,24 @@ Este projeto consiste em uma API REST voltada a persistencia e busca de endereç
 
 ## Instalação
 
-Inicie criando um arquivo .env na raiz do projeto a partir do arquivo .env.example.
-Este projeto funciona com uma instancia docker configurada para rodar a API por meio do nginx e uma instância mysql. Tendo um ambiente com o docker configurado rodar os seguintes comandos:
+Inicie criando um arquivo .env na raiz do projeto a partir do arquivo .env.example com o seguinte comando:
+```bash
+cp .env.example .env
+```
+
+Este projeto funciona com uma instancia docker configurada para rodar a API por meio do nginx e uma instância mysql. Tendo um ambiente com o docker configurado rode o seguinte comando para criar a imagem do projeto:
 
 ```bash
 docker-compose build app
+```
+
+Em seguida rodamos o projeto com:
+
+```bash
 docker-compose up -d
 ```
 
-Isso vai criar a imagem e subir o container, na sequência é necessário instalar as dependencias do projeto, para isso rode o seguinte comando:
+Após criar a imagem e subir o container, é necessário instalar as dependencias, para isso rode o seguinte comando:
 
 ```bash
 docker exec -it teste-revendamais-api composer install
